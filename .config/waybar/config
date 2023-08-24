@@ -1,0 +1,37 @@
+    [{
+
+	"include": "~/.config/waybar/modules",
+	"layer": "top",
+	//"mode": "dock",
+	"exclusive": true,
+	"passthrough": false,
+	"position": "top",
+	"spacing": 0,
+	"fixed-center": true,
+	"ipc": true,
+	"margin-left": 0,
+	"margin-right": 0,
+	"margin-top": 0,
+	
+	"modules-left": [
+		"wlr/workspaces",
+		"hyprland/window", 
+		],
+	  
+	"modules-center": [
+		"clock",
+		"custom/weather",
+		"cava",
+		], 
+	
+	"modules-right": [
+		"tray",
+		"cpu",
+		"temperature", 
+		"memory",
+		"disk", 
+		"pulseaudio",
+		"pulseaudio#microphone", 
+		"custom/power",
+		],
+    }]	

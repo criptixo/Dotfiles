@@ -1,0 +1,270 @@
+\#Monitor Configuration
+# Monitors
+monitor=VGA-1, 1920x1080@60, 0x0, 1
+monitor=HDMI-A-2, 1920x1080@75 ,0x1080, 1
+
+# QEMU
+monitor = Virtual-1, 1920x1080@60,auto,1
+
+
+general {
+  sensitivity=1.00
+  apply_sens_to_raw=1
+  cursor_inactive_timeout=1
+  layout=dwindle
+
+}
+
+input {
+  kb_layout=us
+  kb_variant=
+  kb_model=
+  kb_options=
+  kb_rules=
+  repeat_rate=50
+  repeat_delay=300
+  numlock_by_default=0
+  left_handed=0
+  follow_mouse=1
+  float_switch_override_focus=0
+# force_no_accel=1
+}
+
+general {
+  # See htt\s://wiki.hyprland.org/Configuring/Variables/ for more
+  gaps_in = 0
+  gaps_out = 2
+  border_size = 2
+  col.active_border = rgba(7aa2f7aa) rgba(c4a7e7aa) 45deg
+  col.inactive_border = rgba(414868aa)
+}
+
+decoration {
+  # See https://wiki.hyprland.org/Configuring/Variables/ for more
+  rounding = 0
+  multisample_edges = true	
+  active_opacity = 1.0
+  inactive_opacity = 1.0
+  fullscreen_opacity = 1.0
+  drop_shadow = false
+  shadow_range = 4
+  shadow_render_power = 3
+  col.shadow = rgba(1a1a1aee)
+  dim_inactive = false
+  dim_strength = 0.1
+}
+
+animations {
+  enabled= 0
+  animation = windows, 1, 7, default
+  animation = windowsOut, 1, 7, default, popin 80%
+  animation = border, 1, 10, default
+  animation = fade, 1, 7, default
+  animation = workspaces, 1, 6, default
+}
+
+dwindle {
+  pseudotile = yes
+  preserve_split = yes
+  special_scale_factor = 0.8
+##default_split_ratio = 0.9
+}
+
+master {
+  new_is_master=1
+  new_on_top=1
+  mfact = 0.5
+##special_scale_factor = 0.5
+}
+
+binds {
+  workspace_back_and_forth=1
+  allow_workspace_cycles=1
+  pass_mouse_when_bound=0
+}
+
+misc {
+  disable_hyprland_logo = true
+  disable_splash_rendering = true
+  mouse_move_enables_dpms = true
+  key_press_enables_dpms = true
+  vrr = 2
+  enable_swallow = true
+  no_direct_scanout = true 
+}
+
+# Startup
+exec-once = swaybg -m fill -i $HOME/Wallpapers/musedash.jpeg
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec-once = steam 
+exec-once = discord
+exec-once = premid
+exec-once = mako
+exec-once = waybar
+exec-once = blueman-applet & 
+exec-once = nm-applet --indicator &
+exec-once = thunar
+exec-once = foot
+exec-once = swayidle timeout 7200 'hyprctl dispatcher dpms off'
+exec-once = /usr/lib/polkit-kde-authentication-agent-1
+
+# Environment-variables
+env = QT_QPA_PLATFORMTHEME,qt5ct
+env = GDK_BACKEND,wayland,x11
+env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+
+# Setting variables
+$mainMod = SUPER
+$volume = $HOME/.config/hypr/volume.sh
+$screenshot = $HOME/.config/hypr/screenshot.sh
+
+# Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+bind = $mainMod SHIFT, C, exec, hyprctl reload
+bind = $mainMod, D, exec, wofi
+bind = $mainMod SHIFT, Q, killactive, 
+bind = $mainMod SHIFT, Space, togglefloating, 
+bind = $mainMod, F, fullscreen
+bind = $mainMod, Q, killactive,
+bind = $mainMod, Return, exec, foot
+bind = $mainMod, T, exec, thunar
+
+bind = $mainMod CTRL, D, layoutmsg, removemaster
+bind = $mainMod, Escape, exec, hyprctl kill
+bind = $mainMod, I, layoutmsg, addmaster
+bind = $mainMod, J, layoutmsg, cyclenext
+bind = $mainMod, K, layoutmsg, cycleprev
+bind = $mainMod, M, exec, hyprctl dispatch splitratio 0.3
+bind = $mainMod, P, pseudo, # dwindle
+bind = $mainMod CTRL, Return, layoutmsg, swapwithmaster
+
+# Special Keys / Hot Keys
+
+bind = , xf86audioraisevolume, exec, $volume --inc 
+bind = , xf86audiolowervolume, exec, $volume --dec 
+bind = , xf86AudioMicMute, exec, $volume --toggle-mic 
+bind = , xf86audiomute, exec, $volume --toggle 
+bind = , xf86audioplay, exec, playerctl play-pause 
+bind = , xf86audionext, exec, playerctl next
+bind = , xf86audioprev, exec, playerctl previous
+bind = , xf86audiostop, exec, playerctl stop
+
+# Resize
+binde = $mainMod SHIFT, H, resizeactive,-50 0
+binde = $mainMod SHIFT, L, resizeactive,50 0
+binde = $mainMod SHIFT, K, resizeactive,0 -50
+binde = $mainMod SHIFT, J, resizeactive,0 50
+
+# Move
+bind = $mainMod CTRL, H, movewindow, l
+bind = $mainMod CTRL, L, movewindow, r
+bind = $mainMod CTRL, K, movewindow, u
+bind = $mainMod CTRL, J, movewindow, d
+
+# Move focus with mainMod + arrow keys
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+
+# Special workspace
+bind = $mainMod SHIFT, U, movetoworkspace, special
+bind = $mainMod, U, togglespecialworkspace,
+
+# Switch workspaces with mainMod + [0-9]
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+# Move active window and follow to workspace
+bind = $mainMod CTRL, 1, movetoworkspace, 1
+bind = $mainMod CTRL, 2, movetoworkspace, 2
+bind = $mainMod CTRL, 3, movetoworkspace, 3
+bind = $mainMod CTRL, 4, movetoworkspace, 4
+bind = $mainMod CTRL, 5, movetoworkspace, 5
+bind = $mainMod CTRL, 6, movetoworkspace, 6
+bind = $mainMod CTRL, 7, movetoworkspace, 7
+bind = $mainMod CTRL, 8, movetoworkspace, 8
+bind = $mainMod CTRL, 9, movetoworkspace, 9
+bind = $mainMod CTRL, 0, movetoworkspace, 10
+bind = $mainMod CTRL, bracketleft, movetoworkspace, -1
+bind = $mainMod CTRL, bracketright, movetoworkspace, +1
+
+# Move active window to a workspace with mainMod + SHIFT + [0-9]
+bind = $mainMod SHIFT, 1, movetoworkspacesilent, 1
+bind = $mainMod SHIFT, 2, movetoworkspacesilent, 2
+bind = $mainMod SHIFT, 3, movetoworkspacesilent, 3
+bind = $mainMod SHIFT, 4, movetoworkspacesilent, 4
+bind = $mainMod SHIFT, 5, movetoworkspacesilent, 5
+bind = $mainMod SHIFT, 6, movetoworkspacesilent, 6
+bind = $mainMod SHIFT, 7, movetoworkspacesilent, 7
+bind = $mainMod SHIFT, 8, movetoworkspacesilent, 8
+bind = $mainMod SHIFT, 9, movetoworkspacesilent, 9
+bind = $mainMod SHIFT, 0, movetoworkspacesilent, 10
+bind = $mainMod SHIFT, bracketleft, movetoworkspacesilent, -1
+bind = $mainMod SHIFT, bracketright, movetoworkspacesilent, +1
+
+# Scroll through existing workspaces with mainMod + scroll
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+bind = $mainMod, period, workspace, e+1
+bind = $mainMod, comma, workspace, e-1
+
+# Move/resize windows with mainMod + LMB/RMB and dragging
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+bind = $mainMod, G, togglegroup
+bind = $mainMod, tab, workspace, m+1
+bind = $mainMod SHIFT, tab, workspace, m-1
+bind = ALT, tab, workspace, m+1
+bind = ALT SHIFT, tab, workspace, m-1
+
+
+# Screenshot keybindings
+bind = $mainMod, Print, exec, $screenshot --now
+bind = $mainMod CTRL SHIFT, Print, exec, $screenshot --in5
+bind = $mainMod SHIFT, Print, exec, $screenshot --area
+
+
+
+# Window rules
+windowrule = float, org.kde.polkit-kde-authentication-agent-1
+windowrule = float, nm-connection-editor|blueman-manager
+windowrule = float, swayimg|vlc|Viewnior|pavucontrol
+windowrule = float, nwg-look|qt5ct|mpv
+windowrule = float, wofi
+#windowrule = fullscreen,gamescope
+#windowrule = workspace 6 silent,^(gamescope)$
+
+
+# windowrule v2
+#windowrulev2 = workspace 1, class:^(foot)$
+#windowrulev2 = workspace 2, class:^(Google-chrome)$
+#windowrulev2 = workspace 3, class:^(thunar)$
+#windowrulev2 = workspace 4, class:^(com.obsproject.Studio)$
+#windowrulev2 = workspace 5, class:^(Steam)$,title:^(Steam)$
+#windowrulev2 = workspace 7, class:^(canata)$
+windowrulev2 = workspace 10, class:^(discord)$
+
+workspace = 10, monitor:VGA-1, default:true
+workspace = 9, monitor:VGA-1, default:true 
+workspace = 8, monitor:VGA-1, default:true 
+workspace = 7, monitor:HDMI-2-2, default:true 
+workspace = 6, monitor:HDMI-A-2, default:true
+workspace = 5, monitor:HDMI-A-2, default:true 
+workspace = 4, monitor:HDMI-A-2, default:true 
+workspace = 3, monitor:HDMI-A-2, default:true
+workspace = 2, monitor:HDMI-A-2, default:true 
+workspace = 1, monitor:HDMI-A-2, default:true
